@@ -1,0 +1,106 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user profile information and risk score.",
+      "type": "object",
+      "properties": {
+        "displayName": { "type": "string", "description": "User's full name" },
+        "email": { "type": "string", "format": "email", "description": "User's email address" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Account creation timestamp" },
+        "riskScore": { "type": "number", "description": "Calculated risk score (0-100)" },
+        "alertsEnabled": { "type": "boolean", "description": "Whether alerts are enabled" }
+      },
+      "required": ["displayName", "email", "createdAt"]
+    },
+    "ScamReport": {
+      "title": "Scam Report",
+      "description": "User submitted scam reports.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "ID of the user who reported" },
+        "type": { "type": "string", "description": "Type of scam (Phishing, Identity Theft, etc.)" },
+        "description": { "type": "string", "description": "Detailed description of the scam" },
+        "url": { "type": "string", "format": "uri", "description": "URL associated with the scam" },
+        "status": { "type": "string", "enum": ["pending", "reviewed", "resolved"], "description": "Current status of the report" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the report was submitted" }
+      },
+      "required": ["uid", "type", "description", "status", "timestamp"]
+    },
+    "Alert": {
+      "title": "Security Alert",
+      "description": "Personalized security alerts for the user.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Alert title" },
+        "message": { "type": "string", "description": "Alert message" },
+        "severity": { "type": "string", "enum": ["critical", "warning", "info"], "description": "Severity level" },
+        "read": { "type": "boolean", "description": "Whether the alert has been read" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the alert was generated" }
+      },
+      "required": ["title", "message", "severity", "read", "timestamp"]
+    },
+    "ScanResult": {
+      "title": "Threat Scan Result",
+      "description": "Results of a URL threat scan.",
+      "type": "object",
+      "properties": {
+        "url": { "type": "string", "format": "uri", "description": "Scanned URL" },
+        "score": { "type": "number", "description": "Risk score (0-100)" },
+        "flags": { "type": "array", "items": { "type": "string" }, "description": "Detected risk factors" },
+        "result": { "type": "string", "enum": ["SAFE", "WARNING", "DANGEROUS"], "description": "Overall result" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the scan was performed" }
+      },
+      "required": ["url", "score", "result", "timestamp"]
+    },
+    "GlobalStats": {
+      "title": "Global Statistics",
+      "description": "Aggregated statistics for the platform.",
+      "type": "object",
+      "properties": {
+        "threatsBlocked": { "type": "number", "description": "Total number of threats blocked globally" }
+      },
+      "required": ["threatsBlocked"]
+    },
+    "IntelligenceScan": {
+      "title": "Intelligence Scan",
+      "description": "Stores OSINT scan results for a user.",
+      "type": "object",
+      "properties": {
+        "query": { "type": "string", "description": "Search query used" },
+        "tool": { "type": "string", "description": "OSINT tool used" },
+        "result": { "type": "string", "description": "Full text result of the scan" },
+        "userName": { "type": "string", "description": "Name of the user who performed the scan" },
+        "userEmail": { "type": "string", "description": "Email of the user who performed the scan" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the scan was performed" }
+      },
+      "required": ["query", "tool", "result", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/global/stats": {
+      "schema": "GlobalStats",
+      "description": "Global platform statistics."
+    },
+    "/users/{uid}": {
+      "schema": "UserProfile",
+      "description": "User profile documents."
+    },
+    "/scamReports/{reportId}": {
+      "schema": "ScamReport",
+      "description": "Global scam reports collection."
+    },
+    "/alerts/{uid}/userAlerts/{alertId}": {
+      "schema": "Alert",
+      "description": "User-specific security alerts."
+    },
+    "/scans/{uid}/results/{scanId}": {
+      "schema": "ScanResult",
+      "description": "User's scan history."
+    },
+    "/intelligenceScans/{uid}/history/{scanId}": {
+      "schema": "IntelligenceScan",
+      "description": "User's OSINT scan history."
+    }
+  }
+}

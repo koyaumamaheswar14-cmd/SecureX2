@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Syne:wght@400..800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Syne", sans-serif;
+
+  --color-bg-primary: #0A0E1A;
+  --color-bg-secondary: #0F1629;
+  --color-accent-cyan: #00F5FF;
+  --color-accent-red: #FF3B5C;
+  --color-accent-green: #00FF88;
+  --color-text-primary: #E8EAF6;
+  --color-text-muted: #8892B0;
+}
+
+@layer base {
+  body {
+    @apply bg-bg-primary text-text-primary font-sans;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold;
+  }
+}
+
+.glass-card {
+  @apply bg-bg-secondary/50 backdrop-blur-md border border-white/10 rounded-xl;
+}
+
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(0, 245, 255, 0.2);
+}
+
+.glow-red {
+  box-shadow: 0 0 20px rgba(255, 59, 92, 0.2);
+}
+
+.glow-green {
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+}
+
+.gradient-border {
+  position: relative;
+  background: var(--color-bg-secondary);
+  background-clip: padding-box;
+  border: 1px solid transparent;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: -1;
+  margin: -1px;
+  border-radius: inherit;
+  background: linear-gradient(to right, var(--color-accent-cyan), var(--color-accent-red));
+}
