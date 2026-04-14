@@ -66,11 +66,18 @@ function handleFirestoreError(error: unknown, operationType: OperationType, path
 // Global Stats
 export const subscribeToGlobalStats = (callback: (stats: any) => void) => {
   const path = 'global/stats';
-  return onSnapshot(doc(db, path), (snapshot) => {
-    callback(snapshot.data() || { threatsBlocked: 0 });
-  }, (error) => {
-    handleFirestoreError(error, OperationType.GET, path);
-  });
+  try {
+    return onSnapshot(doc(db, path), (snapshot) => {
+      callback(snapshot.data() || { threatsBlocked: 0 });
+    }, (error) => {
+      console.warn('Global stats subscription failed (likely permissions):', error.message);
+      callback({ threatsBlocked: 0 });
+    });
+  } catch (e) {
+    console.error('Failed to setup global stats subscription:', e);
+    callback({ threatsBlocked: 0 });
+    return () => {};
+  }
 };
 
 export const incrementGlobalThreats = async () => {
