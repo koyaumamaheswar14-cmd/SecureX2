@@ -5,7 +5,8 @@ let aiInstance: GoogleGenAI | null = null;
 // ✅ FIXED: Vite environment variable
 function getAI() {
   if (!aiInstance) {
-    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    const apiKey = "AIzaSyB1l2QQWPNWScvsPOpznJa8xtJnp_Tvi5o
+      ";
 
     if (!apiKey) {
       throw new Error(
