@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { Terminal as TerminalIcon, Search, ShieldAlert, Newspaper, ChevronRight, Upload, Play, Loader2, Globe, Lock, Ghost, Download, Share2, Network, Eye, UserCheck, ShieldCheck, Database, Users, Fingerprint, History, FileText } from 'lucide-react';
 import { getLiveThreats, getCyberNews, runOsintSearch, ThreatEvent, CyberNews } from '../lib/intelligence';
 import { cn } from '../lib/utils';
@@ -223,15 +222,13 @@ export default function IntelligenceCenter() {
           </div>
           
           {lastScanResult && (
-            <motion.button
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
+            <button
               onClick={() => downloadPDF(lastScanResult, searchQuery)}
               className="flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 rounded-xl font-bold text-accent-cyan hover:bg-white/10 transition-all"
             >
               <Download className="w-5 h-5" />
               Download PDF Report
-            </motion.button>
+            </button>
           )}
         </div>
 
@@ -259,13 +256,10 @@ export default function IntelligenceCenter() {
           ))}
         </div>
 
-        <AnimatePresence mode="wait">
+        <div className="mt-8">
           {activeTab === 'osint' && (
-            <motion.div
+            <div
               key="osint"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
               className="space-y-6"
             >
               {/* Simple Search Bar */}
@@ -373,18 +367,14 @@ export default function IntelligenceCenter() {
                       <span>[*] Intelligence engine processing...</span>
                     </div>
                   )}
-                  <div ref={terminalEndRef} />
-                </div>
               </div>
-            </motion.div>
-          )}
+            </div>
+          </div>
+        )}
 
           {activeTab === 'history' && (
-            <motion.div
+            <div
               key="history"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
               className="space-y-4"
             >
               {history.length > 0 ? history.map((scan) => (
@@ -416,15 +406,12 @@ export default function IntelligenceCenter() {
                   <p>No intelligence scans found in your history.</p>
                 </div>
               )}
-            </motion.div>
+            </div>
           )}
 
           {activeTab === 'threats' && (
-            <motion.div
+            <div
               key="threats"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
               className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
               {threats.map((threat) => (
@@ -450,15 +437,12 @@ export default function IntelligenceCenter() {
                   </div>
                 </div>
               ))}
-            </motion.div>
+            </div>
           )}
 
           {activeTab === 'news' && (
-            <motion.div
+            <div
               key="news"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
               className="space-y-6"
             >
               {news.map((item) => (
@@ -484,9 +468,9 @@ export default function IntelligenceCenter() {
                   </div>
                 </div>
               ))}
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
+        </div>
       </div>
     </div>
   );

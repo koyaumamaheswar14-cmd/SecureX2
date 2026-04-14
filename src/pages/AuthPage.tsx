@@ -1,5 +1,4 @@
 import { useState, FormEvent, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { Shield, Mail, Lock, User, ArrowRight, Chrome } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithGoogle } from '../firebase/auth';
@@ -60,11 +59,7 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen pt-24 pb-12 px-4 flex items-center justify-center">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="w-full max-w-md"
-      >
+      <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Shield className="w-16 h-16 text-accent-cyan mx-auto mb-4" />
           <h1 className="text-3xl font-display font-bold tracking-tighter">
@@ -177,7 +172,7 @@ export default function AuthPage() {
             Google Workspace
           </button>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

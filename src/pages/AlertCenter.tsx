@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { Bell, AlertTriangle, Info, CheckCircle, Trash2, Filter, Plus } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { subscribeToAlerts, markAlertAsRead } from '../firebase/firestore';
@@ -74,64 +73,58 @@ export default function AlertCenter() {
       </div>
 
       <div className="space-y-4">
-        <AnimatePresence mode="popLayout">
-          {filteredAlerts.length > 0 ? filteredAlerts.map((alert) => (
-            <motion.div
-              key={alert.id}
-              layout
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className={`glass-card p-6 flex items-start gap-6 relative overflow-hidden group ${
-                !alert.read ? 'border-l-4 border-l-accent-cyan' : 'opacity-60'
-              }`}
-            >
-              <div className={`p-3 rounded-xl ${
-                alert.severity === 'critical' ? 'bg-accent-red/20 text-accent-red' :
-                alert.severity === 'warning' ? 'bg-yellow-500/20 text-yellow-500' :
-                'bg-accent-cyan/20 text-accent-cyan'
-              }`}>
-                {alert.severity === 'critical' ? <AlertTriangle className="w-6 h-6" /> :
-                 alert.severity === 'warning' ? <AlertTriangle className="w-6 h-6" /> :
-                 <Info className="w-6 h-6" />}
-              </div>
-
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between mb-1">
-                  <h3 className={`font-bold text-lg truncate ${!alert.read ? 'text-text-primary' : 'text-text-muted'}`}>
-                    {alert.title}
-                  </h3>
-                  <span className="text-xs text-text-muted whitespace-nowrap ml-4">
-                    {new Date(alert.timestamp?.toDate()).toLocaleString()}
-                  </span>
-                </div>
-                <p className="text-text-muted text-sm leading-relaxed mb-4">
-                  {alert.message}
-                </p>
-                
-                {!alert.read && (
-                  <button
-                    onClick={() => handleMarkAsRead(alert.id)}
-                    className="text-xs font-bold text-accent-cyan hover:underline flex items-center gap-1"
-                  >
-                    <CheckCircle className="w-3 h-3" />
-                    Mark as Read
-                  </button>
-                )}
-              </div>
-
-              <button className="opacity-0 group-hover:opacity-100 p-2 text-text-muted hover:text-accent-red transition-all">
-                <Trash2 className="w-5 h-5" />
-              </button>
-            </motion.div>
-          )) : (
-            <div className="glass-card p-20 text-center">
-              <Bell className="w-16 h-16 text-white/5 mx-auto mb-6" />
-              <h3 className="text-xl font-bold text-text-muted">No alerts found</h3>
-              <p className="text-text-muted mt-2">You're all caught up! No security threats detected.</p>
+        {filteredAlerts.length > 0 ? filteredAlerts.map((alert) => (
+          <div
+            key={alert.id}
+            className={`glass-card p-6 flex items-start gap-6 relative overflow-hidden group ${
+              !alert.read ? 'border-l-4 border-l-accent-cyan' : 'opacity-60'
+            }`}
+          >
+            <div className={`p-3 rounded-xl ${
+              alert.severity === 'critical' ? 'bg-accent-red/20 text-accent-red' :
+              alert.severity === 'warning' ? 'bg-yellow-500/20 text-yellow-500' :
+              'bg-accent-cyan/20 text-accent-cyan'
+            }`}>
+              {alert.severity === 'critical' ? <AlertTriangle className="w-6 h-6" /> :
+               alert.severity === 'warning' ? <AlertTriangle className="w-6 h-6" /> :
+               <Info className="w-6 h-6" />}
             </div>
-          )}
-        </AnimatePresence>
+
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between mb-1">
+                <h3 className={`font-bold text-lg truncate ${!alert.read ? 'text-text-primary' : 'text-text-muted'}`}>
+                  {alert.title}
+                </h3>
+                <span className="text-xs text-text-muted whitespace-nowrap ml-4">
+                  {new Date(alert.timestamp?.toDate()).toLocaleString()}
+                </span>
+              </div>
+              <p className="text-text-muted text-sm leading-relaxed mb-4">
+                {alert.message}
+              </p>
+              
+              {!alert.read && (
+                <button
+                  onClick={() => handleMarkAsRead(alert.id)}
+                  className="text-xs font-bold text-accent-cyan hover:underline flex items-center gap-1"
+                >
+                  <CheckCircle className="w-3 h-3" />
+                  Mark as Read
+                </button>
+              )}
+            </div>
+
+            <button className="opacity-0 group-hover:opacity-100 p-2 text-text-muted hover:text-accent-red transition-all">
+              <Trash2 className="w-5 h-5" />
+            </button>
+          </div>
+        )) : (
+          <div className="glass-card p-20 text-center">
+            <Bell className="w-16 h-16 text-white/5 mx-auto mb-6" />
+            <h3 className="text-xl font-bold text-text-muted">No alerts found</h3>
+            <p className="text-text-muted mt-2">You're all caught up! No security threats detected.</p>
+          </div>
+        )}
       </div>
     </div>
   );

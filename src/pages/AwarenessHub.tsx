@@ -1,5 +1,4 @@
 import { useState, FormEvent } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { 
   BookOpen, 
   ShieldAlert, 
@@ -119,12 +118,10 @@ export default function AwarenessHub() {
         </p>
       </header>
 
-      {/* Awareness Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
         {awarenessCards.map((card) => (
-          <motion.div
+          <div
             key={card.id}
-            layout
             className={`glass-card overflow-hidden cursor-pointer transition-all ${
               expandedCard === card.id ? 'ring-2 ring-accent-cyan' : 'hover:border-accent-cyan/30'
             }`}
@@ -140,38 +137,30 @@ export default function AwarenessHub() {
               </div>
             </div>
 
-            <AnimatePresence>
-              {expandedCard === card.id && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  className="bg-bg-primary/50 border-t border-white/10"
-                >
-                  <div className="p-8 space-y-4">
-                    <h4 className="font-bold text-accent-cyan uppercase text-xs tracking-widest">Pro Tips:</h4>
-                    <ul className="space-y-3">
-                      {card.tips.map((tip, i) => (
-                        <li key={i} className="flex items-start gap-3 text-sm text-text-primary">
-                          <CheckCircle2 className="w-4 h-4 text-accent-green shrink-0 mt-0.5" />
-                          {tip}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
+            {expandedCard === card.id && (
+              <div
+                className="bg-bg-primary/50 border-t border-white/10"
+              >
+                <div className="p-8 space-y-4">
+                  <h4 className="font-bold text-accent-cyan uppercase text-xs tracking-widest">Pro Tips:</h4>
+                  <ul className="space-y-3">
+                    {card.tips.map((tip, i) => (
+                      <li key={i} className="flex items-start gap-3 text-sm text-text-primary">
+                        <CheckCircle2 className="w-4 h-4 text-accent-green shrink-0 mt-0.5" />
+                        {tip}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
         ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Scam Report Form */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
+        <div
           className="glass-card p-8"
         >
           <h2 className="text-3xl font-display font-bold mb-6 flex items-center gap-3">
@@ -231,13 +220,10 @@ export default function AwarenessHub() {
               {reportStatus === 'success' && <CheckCircle2 className="w-5 h-5" />}
             </button>
           </form>
-        </motion.div>
+        </div>
 
         {/* Quiz Section */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
+        <div
           className="glass-card p-8 flex flex-col"
         >
           <h2 className="text-3xl font-display font-bold mb-6 flex items-center gap-3">
@@ -291,7 +277,7 @@ export default function AwarenessHub() {
               </div>
             )}
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

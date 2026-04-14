@@ -1,4 +1,3 @@
-import { motion } from 'motion/react';
 import { Shield, Zap, Lock, Bell, ArrowRight, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
@@ -83,11 +82,7 @@ export default function LandingPage() {
       
       {/* Hero Section */}
       <section className="relative z-10 pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
+        <div>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-cyan/10 border border-accent-cyan/20 text-accent-cyan text-sm font-bold mb-8">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-cyan opacity-75"></span>
@@ -118,25 +113,21 @@ export default function LandingPage() {
               <span className="text-accent-green font-bold">{globalStats.threatsBlocked.toLocaleString()}</span> Threats Blocked Today
             </div>
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* Features Grid */}
       <section className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((f, i) => (
-            <motion.div
+            <div
               key={f.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
               className="glass-card p-8 hover:border-accent-cyan/50 transition-colors group"
             >
               <f.icon className="w-12 h-12 text-accent-cyan mb-6 group-hover:scale-110 transition-transform" />
               <h3 className="text-xl font-bold mb-3">{f.title}</h3>
               <p className="text-text-muted leading-relaxed">{f.desc}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </section>

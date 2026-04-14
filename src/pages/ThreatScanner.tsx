@@ -1,5 +1,4 @@
 import { useState, FormEvent } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { Search, Shield, AlertTriangle, CheckCircle, Info, ArrowRight, Globe, Lock, Clock, History } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { saveScanResult, incrementGlobalThreats } from '../firebase/firestore';
@@ -107,13 +106,11 @@ export default function ThreatScanner() {
   return (
     <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
       <header className="text-center mb-12">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+        <div
           className="inline-flex items-center justify-center p-4 bg-accent-cyan/10 rounded-full mb-6"
         >
           <Search className="w-12 h-12 text-accent-cyan" />
-        </motion.div>
+        </div>
         <h1 className="text-4xl font-display font-bold tracking-tighter mb-4">Threat Scanner</h1>
         <p className="text-text-muted max-w-xl mx-auto">
           Enter any URL to perform a deep security scan. Our AI-powered engine analyzes 
@@ -154,101 +151,96 @@ export default function ThreatScanner() {
         </form>
       </div>
 
-      <AnimatePresence mode="wait">
-        {result && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="space-y-8"
-          >
-            {/* Main Result Card */}
-            <div className={`glass-card p-8 border-t-4 ${
-              result.result === 'SAFE' ? 'border-t-accent-green' :
-              result.result === 'WARNING' ? 'border-t-yellow-500' :
-              'border-t-accent-red'
-            }`}>
-              <div className="flex flex-col md:flex-row items-center gap-8">
-                <div className="relative w-32 h-32 flex items-center justify-center">
-                  <svg className="w-full h-full -rotate-90">
-                    <circle
-                      cx="64" cy="64" r="60"
-                      fill="transparent"
-                      stroke="rgba(255,255,255,0.05)"
-                      strokeWidth="8"
-                    />
-                    <circle
-                      cx="64" cy="64" r="60"
-                      fill="transparent"
-                      stroke={
-                        result.result === 'SAFE' ? '#00FF88' :
-                        result.result === 'WARNING' ? '#EAB308' :
-                        '#FF3B5C'
-                      }
-                      strokeWidth="8"
-                      strokeDasharray={Math.PI * 120}
-                      strokeDashoffset={Math.PI * 120 * (1 - result.score / 100)}
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-3xl font-black">{result.score}</span>
-                    <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest">Risk Score</span>
-                  </div>
+      {result && (
+        <div
+          className="space-y-8"
+        >
+          {/* Main Result Card */}
+          <div className={`glass-card p-8 border-t-4 ${
+            result.result === 'SAFE' ? 'border-t-accent-green' :
+            result.result === 'WARNING' ? 'border-t-yellow-500' :
+            'border-t-accent-red'
+          }`}>
+            <div className="flex flex-col md:flex-row items-center gap-8">
+              <div className="relative w-32 h-32 flex items-center justify-center">
+                <svg className="w-full h-full -rotate-90">
+                  <circle
+                    cx="64" cy="64" r="60"
+                    fill="transparent"
+                    stroke="rgba(255,255,255,0.05)"
+                    strokeWidth="8"
+                  />
+                  <circle
+                    cx="64" cy="64" r="60"
+                    fill="transparent"
+                    stroke={
+                      result.result === 'SAFE' ? '#00FF88' :
+                      result.result === 'WARNING' ? '#EAB308' :
+                      '#FF3B5C'
+                    }
+                    strokeWidth="8"
+                    strokeDasharray={Math.PI * 120}
+                    strokeDashoffset={Math.PI * 120 * (1 - result.score / 100)}
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-3xl font-black">{result.score}</span>
+                  <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest">Risk Score</span>
                 </div>
+              </div>
 
-                <div className="flex-1 text-center md:text-left">
-                  <div className="flex items-center justify-center md:justify-start gap-3 mb-2">
-                    <h2 className="text-2xl font-bold">{result.url}</h2>
-                    <span className={`px-3 py-1 rounded-full text-xs font-black tracking-tighter ${
-                      result.result === 'SAFE' ? 'bg-accent-green/20 text-accent-green' :
-                      result.result === 'WARNING' ? 'bg-yellow-500/20 text-yellow-500' :
-                      'bg-accent-red/20 text-accent-red'
-                    }`}>
-                      {result.result}
-                    </span>
-                  </div>
-                  <p className="text-text-muted mb-6">
-                    {result.result === 'SAFE' ? 'This URL appears to be safe for browsing.' :
-                     result.result === 'WARNING' ? 'Proceed with caution. Some suspicious factors detected.' :
-                     'High risk detected. We strongly recommend avoiding this site.'}
-                  </p>
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {result.flags.map((flag: string) => (
-                      <div key={flag} className="flex items-center gap-2 text-sm font-medium text-text-primary">
-                        {result.result === 'SAFE' ? <CheckCircle className="w-4 h-4 text-accent-green" /> : 
-                         result.result === 'WARNING' ? <AlertTriangle className="w-4 h-4 text-yellow-500" /> :
-                         <AlertTriangle className="w-4 h-4 text-accent-red" />}
-                        {flag}
-                      </div>
-                    ))}
-                  </div>
+              <div className="flex-1 text-center md:text-left">
+                <div className="flex items-center justify-center md:justify-start gap-3 mb-2">
+                  <h2 className="text-2xl font-bold">{result.url}</h2>
+                  <span className={`px-3 py-1 rounded-full text-xs font-black tracking-tighter ${
+                    result.result === 'SAFE' ? 'bg-accent-green/20 text-accent-green' :
+                    result.result === 'WARNING' ? 'bg-yellow-500/20 text-yellow-500' :
+                    'bg-accent-red/20 text-accent-red'
+                  }`}>
+                    {result.result}
+                  </span>
+                </div>
+                <p className="text-text-muted mb-6">
+                  {result.result === 'SAFE' ? 'This URL appears to be safe for browsing.' :
+                   result.result === 'WARNING' ? 'Proceed with caution. Some suspicious factors detected.' :
+                   'High risk detected. We strongly recommend avoiding this site.'}
+                </p>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {result.flags.map((flag: string) => (
+                    <div key={flag} className="flex items-center gap-2 text-sm font-medium text-text-primary">
+                      {result.result === 'SAFE' ? <CheckCircle className="w-4 h-4 text-accent-green" /> : 
+                       result.result === 'WARNING' ? <AlertTriangle className="w-4 h-4 text-yellow-500" /> :
+                       <AlertTriangle className="w-4 h-4 text-accent-red" />}
+                      {flag}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Technical Details */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="glass-card p-6">
-                <Lock className="w-6 h-6 text-accent-cyan mb-4" />
-                <h4 className="font-bold mb-2">SSL Status</h4>
-                <p className="text-xs text-text-muted">TLS 1.3 Encryption active. Certificate issued by Let's Encrypt.</p>
-              </div>
-              <div className="glass-card p-6">
-                <Shield className="w-6 h-6 text-accent-cyan mb-4" />
-                <h4 className="font-bold mb-2">Reputation</h4>
-                <p className="text-xs text-text-muted">Checked against 42 global threat intelligence databases.</p>
-              </div>
-              <div className="glass-card p-6">
-                <Clock className="w-6 h-6 text-accent-cyan mb-4" />
-                <h4 className="font-bold mb-2">Domain Age</h4>
-                <p className="text-xs text-text-muted">Registered 4 years, 2 months ago. Stable ownership history.</p>
-              </div>
+          {/* Technical Details */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="glass-card p-6">
+              <Lock className="w-6 h-6 text-accent-cyan mb-4" />
+              <h4 className="font-bold mb-2">SSL Status</h4>
+              <p className="text-xs text-text-muted">TLS 1.3 Encryption active. Certificate issued by Let's Encrypt.</p>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <div className="glass-card p-6">
+              <Shield className="w-6 h-6 text-accent-cyan mb-4" />
+              <h4 className="font-bold mb-2">Reputation</h4>
+              <p className="text-xs text-text-muted">Checked against 42 global threat intelligence databases.</p>
+            </div>
+            <div className="glass-card p-6">
+              <Lock className="w-6 h-6 text-accent-cyan mb-4" />
+              <h4 className="font-bold mb-2">Domain Age</h4>
+              <p className="text-xs text-text-muted">Registered 4 years, 2 months ago. Stable ownership history.</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

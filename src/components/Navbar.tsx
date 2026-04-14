@@ -4,7 +4,6 @@ import { useAuth } from '../hooks/useAuth';
 import { logout } from '../firebase/auth';
 import { useState } from 'react';
 import { cn } from '../lib/utils';
-import { motion, AnimatePresence } from 'motion/react';
 
 export default function Navbar() {
   const { user } = useAuth();
@@ -80,52 +79,45 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Nav */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-bg-secondary border-b border-white/10 overflow-hidden"
-          >
-            <div className="px-4 py-6 space-y-4">
-              {user ? (
-                <>
-                  {navLinks.map((link) => (
-                    <Link
-                      key={link.name}
-                      to={link.path}
-                      onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-3 text-lg font-medium text-text-muted hover:text-accent-cyan transition-colors"
-                    >
-                      <link.icon className="w-5 h-5" />
-                      {link.name}
-                    </Link>
-                  ))}
-                  <button
-                    onClick={() => {
-                      handleLogout();
-                      setIsOpen(false);
-                    }}
-                    className="flex items-center gap-3 text-lg font-medium text-accent-red w-full"
+      {isOpen && (
+        <div className="md:hidden bg-bg-secondary border-b border-white/10 overflow-hidden">
+          <div className="px-4 py-6 space-y-4">
+            {user ? (
+              <>
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-3 text-lg font-medium text-text-muted hover:text-accent-cyan transition-colors"
                   >
-                    <LogOut className="w-5 h-5" />
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <Link
-                  to="/auth"
-                  onClick={() => setIsOpen(false)}
-                  className="block w-full py-3 bg-accent-cyan text-bg-primary font-bold rounded-xl text-center"
+                    <link.icon className="w-5 h-5" />
+                    {link.name}
+                  </Link>
+                ))}
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setIsOpen(false);
+                  }}
+                  className="flex items-center gap-3 text-lg font-medium text-accent-red w-full"
                 >
-                  Get Protected
-                </Link>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                  <LogOut className="w-5 h-5" />
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/auth"
+                onClick={() => setIsOpen(false)}
+                className="block w-full py-3 bg-accent-cyan text-bg-primary font-bold rounded-xl text-center"
+              >
+                Get Protected
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

@@ -10,7 +10,6 @@ import AlertCenter from './pages/AlertCenter';
 import AwarenessHub from './pages/AwarenessHub';
 import IntelligenceCenter from './pages/IntelligenceCenter';
 import AuthPage from './pages/AuthPage';
-import { motion, AnimatePresence } from 'motion/react';
 
 const PrivateRoute = ({ children }: { children: ReactNode }) => {
   const { user, loading } = useAuth();
@@ -33,44 +32,42 @@ export default function App() {
         <Router>
           <div className="min-h-screen bg-bg-primary text-text-primary selection:bg-accent-cyan selection:text-bg-primary">
             <Navbar />
-            <AnimatePresence mode="wait">
-              <Routes>
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/auth" element={<AuthPage />} />
-                
-                <Route path="/dashboard" element={
-                  <PrivateRoute>
-                    <Dashboard />
-                  </PrivateRoute>
-                } />
-                
-                <Route path="/scanner" element={
-                  <PrivateRoute>
-                    <ThreatScanner />
-                  </PrivateRoute>
-                } />
-                
-                <Route path="/alerts" element={
-                  <PrivateRoute>
-                    <AlertCenter />
-                  </PrivateRoute>
-                } />
-                
-                <Route path="/awareness" element={
-                  <PrivateRoute>
-                    <AwarenessHub />
-                  </PrivateRoute>
-                } />
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/auth" element={<AuthPage />} />
+              
+              <Route path="/dashboard" element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              } />
+              
+              <Route path="/scanner" element={
+                <PrivateRoute>
+                  <ThreatScanner />
+                </PrivateRoute>
+              } />
+              
+              <Route path="/alerts" element={
+                <PrivateRoute>
+                  <AlertCenter />
+                </PrivateRoute>
+              } />
+              
+              <Route path="/awareness" element={
+                <PrivateRoute>
+                  <AwarenessHub />
+                </PrivateRoute>
+              } />
 
-                <Route path="/intelligence" element={
-                  <PrivateRoute>
-                    <IntelligenceCenter />
-                  </PrivateRoute>
-                } />
+              <Route path="/intelligence" element={
+                <PrivateRoute>
+                  <IntelligenceCenter />
+                </PrivateRoute>
+              } />
 
-                <Route path="*" element={<Navigate to="/" />} />
-              </Routes>
-            </AnimatePresence>
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
             
             {/* Footer */}
             <footer className="py-12 border-t border-white/5 mt-20">

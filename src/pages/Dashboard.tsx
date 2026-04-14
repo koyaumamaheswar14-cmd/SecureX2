@@ -1,4 +1,3 @@
-import { motion } from 'motion/react';
 import { Shield, Zap, AlertTriangle, CheckCircle, Clock, TrendingUp, ArrowUpRight } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useEffect, useState } from 'react';
@@ -104,13 +103,11 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <header className="mb-10">
-        <motion.h1 
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
+        <h1 
           className="text-4xl font-display font-bold tracking-tighter"
         >
           Hello, <span className="text-accent-cyan">{profile?.displayName?.split(' ')[0]}</span>
-        </motion.h1>
+        </h1>
         <p className="text-text-muted mt-2">Your security status is currently <span className="text-accent-green font-bold uppercase">Optimized</span></p>
       </header>
 
@@ -120,25 +117,19 @@ export default function Dashboard() {
           {/* Stats Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {stats.map((stat, i) => (
-              <motion.div
+              <div
                 key={stat.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
                 className="glass-card p-6"
               >
                 <stat.icon className={`w-6 h-6 ${stat.color} mb-4`} />
                 <div className="text-2xl font-bold">{stat.value}</div>
                 <div className="text-xs font-bold text-text-muted uppercase tracking-wider mt-1">{stat.name}</div>
-              </motion.div>
+              </div>
             ))}
           </div>
 
           {/* Trend Chart */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
+          <div 
             className="glass-card p-8"
           >
             <div className="flex items-center justify-between mb-8">
@@ -169,13 +160,10 @@ export default function Dashboard() {
                 </LineChart>
               </ResponsiveContainer>
             </div>
-          </motion.div>
+          </div>
 
           {/* Recent Alerts */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
+          <div
             className="glass-card overflow-hidden"
           >
             <div className="p-6 border-b border-white/10 flex items-center justify-between">
@@ -204,15 +192,13 @@ export default function Dashboard() {
                 <div className="p-12 text-center text-text-muted">No recent alerts found.</div>
               )}
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Right Column: Risk Gauge & Live Feed */}
         <div className="space-y-8">
           {/* Risk Score Gauge */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+          <div
             className="glass-card p-8 text-center"
           >
             <h3 className="text-xl font-bold mb-4">Risk Score</h3>
@@ -237,12 +223,10 @@ export default function Dashboard() {
               </div>
             </div>
             <p className="text-sm text-text-muted mt-4">Your score is better than 82% of users in your region.</p>
-          </motion.div>
+          </div>
 
           {/* Live Threat Feed */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
+          <div
             className="glass-card h-[600px] flex flex-col"
           >
             <div className="p-6 border-b border-white/10 flex items-center justify-between">
@@ -268,7 +252,7 @@ export default function Dashboard() {
                       {new Date(threat.timestamp).toLocaleTimeString()}
                     </span>
                   </div>
-                  <div className="font-medium text-text-primary mb-1">{threat.source}</div>
+                  <div className="font-medium text-text-primary mb-1">{threat.source} Source</div>
                   <div className="text-text-muted flex items-center justify-between">
                     <span>{threat.location}</span>
                     <ArrowUpRight className="w-3 h-3 text-accent-cyan" />
@@ -276,7 +260,7 @@ export default function Dashboard() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>
